@@ -1,5 +1,7 @@
 package com.app.client.service.impl;
 
+import com.app.client.exceptions.ResourceExistsException;
+import com.app.client.exceptions.ResourceNotFoundException;
 import com.app.client.mappers.ClientMapper;
 import com.app.client.model.Client;
 import com.app.client.model.dto.ClientDto;
@@ -39,7 +41,7 @@ public class ClientServiceImpl implements ClientService {
     public ClientDto create(ClientDto clientDto) {
         boolean exists = clientRepository.existsByIdentification(clientDto.getIdentification());
         if (exists) {
-            throw new RuntimeException("Identification already exists");
+            throw new ResourceExistsException("Identificación ya existe");
         }
 
         Client newClient = clientRepository.save(clientMapper.toEntity(clientDto));
@@ -49,7 +51,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public ClientDto update(Long id, ClientUpdateDto clientDto) {
         Client existingClient = clientRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Client not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("cliente no encontrado"));
 
         clientMapper.updateFromDto(clientDto, existingClient);
         Client updatedClient = clientRepository.save(existingClient);
@@ -60,7 +62,7 @@ public class ClientServiceImpl implements ClientService {
     public void delete(Long id) {
         boolean exists = clientRepository.existsById(id);
         if (!exists) {
-            throw new RuntimeException("Client not found");
+            throw new ResourceNotFoundException("Cliente no encontrado");
         }
         clientRepository.deleteById(id);
     }

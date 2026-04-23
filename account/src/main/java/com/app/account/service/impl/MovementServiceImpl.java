@@ -1,5 +1,7 @@
 package com.app.account.service.impl;
 
+import com.app.account.exceptions.ResourceNotFoundException;
+import com.app.account.exceptions.ResourceWithErrorException;
 import com.app.account.mappers.MovementMapper;
 import com.app.account.model.Account;
 import com.app.account.model.Movement;
@@ -56,7 +58,7 @@ public class MovementServiceImpl implements MovementService {
     @Override
     public MovementDto create(CreateMovementDto createMovementDto) {
         Account account = accountRepository.findOneByAccountNumberAndAccountType(createMovementDto.getAccountNumber(), createMovementDto.getAccountType())
-                .orElseThrow(() -> new RuntimeException("Account not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Cuenta no encontrada"));
 
         Optional<Movement> lastMovement = movementRepository.findTopByAccount_IdOrderByMovementDateDesc(account.getId());
         if (lastMovement.isEmpty()) {
@@ -72,7 +74,7 @@ public class MovementServiceImpl implements MovementService {
 
     private MovementDto registerMovement(CreateMovementDto createMovementDto, Account account, BigDecimal balance) {
         if (balance.compareTo(createMovementDto.getInitialBalance()) < 0) {
-            throw new RuntimeException("Saldo no disponible");
+            throw new ResourceWithErrorException("Saldo no disponible");
         }
 
         Movement movement = new Movement();

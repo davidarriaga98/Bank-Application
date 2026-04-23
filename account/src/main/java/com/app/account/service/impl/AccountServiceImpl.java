@@ -1,5 +1,7 @@
 package com.app.account.service.impl;
 
+import com.app.account.exceptions.ResourceExistsException;
+import com.app.account.exceptions.ResourceNotFoundException;
 import com.app.account.mappers.AccountMapper;
 import com.app.account.model.Account;
 import com.app.account.model.dto.AccountDto;
@@ -63,12 +65,12 @@ public class AccountServiceImpl implements AccountService {
     public AccountDto create(CreateAccountDto accountDto) {
         boolean exists = accountRepository.existsByAccountNumber(accountDto.getAccountNumber());
         if (exists) {
-            throw new RuntimeException("Account number already exists");
+            throw new ResourceExistsException("Cuenta ya existe");
         }
 
         ClientMicroserviceResponseDto client = obtainClientFromMicroservice(accountDto.getClientId());
         if (client == null) {
-            throw new RuntimeException("Client not found in client microservice");
+            throw new ResourceNotFoundException("Cliente no encontrado");
         }
 
         Account newAccount = accountMapper.toEntity(accountDto);
@@ -84,7 +86,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountDto update(Long id, AccountUpdateDto accountDto) {
         Account existingAccount = accountRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Account not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Cuenta no encontrada"));
 
         accountMapper.updateFromDto(accountDto, existingAccount);
         Account updatedAccount = accountRepository.save(existingAccount);
@@ -95,7 +97,7 @@ public class AccountServiceImpl implements AccountService {
     public void delete(Long id) {
         boolean exists = accountRepository.existsById(id);
         if (!exists) {
-            throw new RuntimeException("Account not found");
+            throw new ResourceNotFoundException("Cuenta no encontrada");
         }
         accountRepository.deleteById(id);
     }
