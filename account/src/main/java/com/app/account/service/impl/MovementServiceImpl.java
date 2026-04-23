@@ -112,10 +112,20 @@ public class MovementServiceImpl implements MovementService {
         if (hasDate) {
             LocalDateTime initialDateTime = date.atStartOfDay();
             LocalDateTime finalDateTime = date.atTime(23, 59, 59);
-            List<Movement> movements = movementRepository.findMovementsByMovementDateBetween(initialDateTime, finalDateTime);
+
+            List<Movement> movements;
+            if (hasClientId) {
+                movements = movementRepository.findMovementsByAccount_ClientIdAndMovementDateBetween(clientId, initialDateTime, finalDateTime);
+            } else {
+                movements = movementRepository.findMovementsByMovementDateBetween(initialDateTime, finalDateTime);
+            }
+            return movementsToReportDto(movements);
+        } else if (hasClientId) {
+            List<Movement> movements = movementRepository.findMovementsByAccount_ClientId(clientId);
             return movementsToReportDto(movements);
         }
 
-        return null;
+        List<Movement> allMovements = movementRepository.findAll();
+        return movementsToReportDto(allMovements);
     }
 }
