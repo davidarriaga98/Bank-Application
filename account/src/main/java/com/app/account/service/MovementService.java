@@ -16,5 +16,5 @@ public interface MovementService {
 
     MovementDto create(CreateMovementDto createMovementDto);
 
-    List<ReportDto> getReport(Long clientId, LocalDate date);
+    List<ReportDto> getReport(Long clientId, LocalDate startDate, LocalDate endDate);
 }

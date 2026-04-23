@@ -19,8 +19,12 @@ public class ReportController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ReportDto>> report(@RequestParam(name = "cliente", required = false) Long clientId,
-                                                  @RequestParam(name = "fecha", required = false) @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate date) {
-        return ResponseEntity.ok(movementService.getReport(clientId, date));
+    public ResponseEntity<List<ReportDto>> report(
+            @RequestParam(name = "cliente") Long clientId,
+            @RequestParam(name = "fechaInicio") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate startDate,
+            @RequestParam(name = "fechaFin") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate endDate
+
+    ) {
+        return ResponseEntity.ok(movementService.getReport(clientId, startDate, endDate));
     }
 }
