@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class Client extends Person {
-    private String clientId;
     private String password;
     private Boolean status;
 }

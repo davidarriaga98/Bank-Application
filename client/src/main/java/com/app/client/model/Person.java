@@ -16,7 +16,7 @@ public class Person {
     private Long id;
     private String name;
     private String gender;
-    private short age;
+    private Short age;
     private String identification;
     private String address;
     private String phone;

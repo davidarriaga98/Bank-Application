@@ -1,5 +1,12 @@
 spring:
   application:
     name: client
+  datasource:
+    url: jdbc:mysql://localhost:3306/clientdbb?useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: admin
+  jpa:
+    hibernate:
+      ddl-auto: validate
 server:
   port: 8082
