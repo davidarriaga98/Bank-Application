@@ -73,15 +73,24 @@ public class MovementServiceImpl implements MovementService {
     }
 
     private MovementDto registerMovement(CreateMovementDto createMovementDto, Account account, BigDecimal balance) {
-        if (balance.compareTo(createMovementDto.getInitialBalance()) < 0) {
+        BigDecimal amount = createMovementDto.getInitialBalance();
+
+        if (amount.compareTo(BigDecimal.ZERO) < 0 && balance.compareTo(amount.abs()) < 0) {
             throw new ResourceWithErrorException("Saldo no disponible");
         }
 
         Movement movement = new Movement();
         movement.setMovementDate(LocalDateTime.now());
         movement.setMovementType(createMovementDto.getAccountType());
-        movement.setAmount(createMovementDto.getInitialBalance());
-        movement.setBalance(balance.subtract(createMovementDto.getInitialBalance()));
+        movement.setAmount(amount);
+
+        BigDecimal newBalance;
+        if (amount.compareTo(BigDecimal.ZERO) > 0) {
+            newBalance = balance.add(amount);
+        } else {
+            newBalance = balance.subtract(amount.abs());
+        }
+        movement.setBalance(newBalance);
         movement.setAccount(account);
 
         movementRepository.save(movement);
