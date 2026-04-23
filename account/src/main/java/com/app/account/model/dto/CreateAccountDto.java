@@ -14,16 +14,10 @@ import java.math.BigDecimal;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccountDto {
-    private Long id;
-
+public class CreateAccountDto {
     @Length(max = 50)
     @NotBlank
     private String accountNumber;
-
-    @Length(max = 50)
-    @NotBlank
-    private String client;
 
     @NotNull
     private Long clientId;
@@ -34,7 +28,5 @@ public class AccountDto {
 
     @NotNull
     private BigDecimal initialBalance;
-
-    @NotNull
-    private Boolean status;
 }
+

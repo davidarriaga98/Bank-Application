@@ -17,9 +17,11 @@ public class Account {
     private Long id;
     private String accountNumber;
     private String accountType;
-    private String client;
     private BigDecimal initialBalance;
     private Boolean status;
+
+    private String client;
+    private Long clientId;
 
     @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
     private List<Movement> movements;

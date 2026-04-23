@@ -2,6 +2,7 @@ package com.app.account.controller;
 
 import com.app.account.model.dto.AccountDto;
 import com.app.account.model.dto.AccountUpdateDto;
+import com.app.account.model.dto.CreateAccountDto;
 import com.app.account.service.AccountService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -34,7 +35,7 @@ public class AccountController {
     }
 
     @PostMapping
-    public ResponseEntity<AccountDto> create(@Valid @RequestBody AccountDto accountDto) {
+    public ResponseEntity<AccountDto> create(@Valid @RequestBody CreateAccountDto accountDto) {
         AccountDto newAccount = accountService.create(accountDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(newAccount);
     }

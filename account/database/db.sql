@@ -3,6 +3,7 @@ create table if not exists account (
                                       account_number varchar(50) not null,
                                       account_type varchar(50) not null,
                                       client varchar(50) not null,
+                                      client_id bigint not null,
                                       initial_balance decimal(15,4) not null,
                                       status bit not null default 0
 );
