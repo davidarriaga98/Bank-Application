@@ -3,6 +3,7 @@ package com.app.client.service.impl;
 import com.app.client.mappers.ClientMapper;
 import com.app.client.model.Client;
 import com.app.client.model.dto.ClientDto;
+import com.app.client.model.dto.ClientUpdateDto;
 import com.app.client.repository.ClientRepository;
 import com.app.client.service.ClientService;
 import org.springframework.stereotype.Service;
@@ -36,17 +37,31 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public ClientDto create(ClientDto clientDto) {
+        boolean exists = clientRepository.existsByIdentification(clientDto.getIdentification());
+        if (exists) {
+            throw new RuntimeException("Identification already exists");
+        }
+
         Client newClient = clientRepository.save(clientMapper.toEntity(clientDto));
         return clientMapper.toDto(newClient);
     }
 
     @Override
-    public ClientDto update(Long id, ClientDto clientDto) {
-        return null;
+    public ClientDto update(Long id, ClientUpdateDto clientDto) {
+        Client existingClient = clientRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Client not found"));
+
+        clientMapper.updateFromDto(clientDto, existingClient);
+        Client updatedClient = clientRepository.save(existingClient);
+        return clientMapper.toDto(updatedClient);
     }
 
     @Override
     public void delete(Long id) {
-
+        boolean exists = clientRepository.existsById(id);
+        if (!exists) {
+            throw new RuntimeException("Client not found");
+        }
+        clientRepository.deleteById(id);
     }
 }
