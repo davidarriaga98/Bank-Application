@@ -1,11 +1,11 @@
 package com.app.client.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
@@ -17,35 +17,31 @@ public class ClientDto {
     private Long id;
 
     @Length(max = 50)
-    @NotEmpty
-    @NotNull
+    @NotBlank
     private String name;
 
-    @NotNull
+    @NotBlank
     private String gender;
 
-    private short age;
+    @NotNull
+    private Short age;
 
     @Length(max = 20)
-    @NotEmpty
-    @NotNull
+    @NotBlank
     @Pattern(regexp = "^[0-9]+$")
     private String identification;
 
     @Length(max = 255)
-    @NotEmpty
-    @NotNull
+    @NotBlank
     private String address;
 
     @Length(max = 25)
-    @NotEmpty
-    @NotNull
+    @NotBlank
     @Pattern(regexp = "^[0-9]+$")
     private String phone;
 
     @Length(max = 255)
-    @NotEmpty
-    @NotNull
+    @NotBlank
     private String password;
 
     @NotNull

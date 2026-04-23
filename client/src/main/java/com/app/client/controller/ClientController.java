@@ -2,10 +2,10 @@ package com.app.client.controller;
 
 import com.app.client.model.dto.ClientDto;
 import com.app.client.service.ClientService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,7 +19,22 @@ public class ClientController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ClientDto>> getAllClients() {
+    public ResponseEntity<List<ClientDto>> getAll() {
         return ResponseEntity.ok(clientService.getAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ClientDto> getById(@PathVariable Long id) {
+        ClientDto clientDto = clientService.getById(id);
+        if (clientDto == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(clientDto);
+    }
+
+    @PostMapping
+    public ResponseEntity<ClientDto> create(@Valid @RequestBody ClientDto clientDto) {
+        ClientDto newClient = clientService.create(clientDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newClient);
     }
 }
