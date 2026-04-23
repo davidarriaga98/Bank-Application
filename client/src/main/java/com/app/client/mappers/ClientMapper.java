@@ -3,10 +3,7 @@ package com.app.client.mappers;
 import com.app.client.model.Client;
 import com.app.client.model.dto.ClientDto;
 import com.app.client.model.dto.ClientUpdateDto;
-import org.mapstruct.BeanMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
 public interface ClientMapper {
@@ -14,6 +11,7 @@ public interface ClientMapper {
 
     ClientDto toDto(Client entity);
 
+    @Mapping(target = "id", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateFromDto(ClientUpdateDto dto, @MappingTarget Client entity);
 }
