@@ -5,12 +5,14 @@ import com.app.account.model.Account;
 import com.app.account.model.Movement;
 import com.app.account.model.dto.CreateMovementDto;
 import com.app.account.model.dto.MovementDto;
+import com.app.account.model.dto.ReportDto;
 import com.app.account.repository.AccountRepository;
 import com.app.account.repository.MovementRepository;
 import com.app.account.service.MovementService;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -83,5 +85,37 @@ public class MovementServiceImpl implements MovementService {
         movementRepository.save(movement);
 
         return movementMapper.toDto(movement);
+    }
+
+    private List<ReportDto> movementsToReportDto(List<Movement> movements) {
+        return movements.stream()
+                .map(movement -> {
+                    ReportDto reportDto = new ReportDto();
+                    reportDto.setDate(movement.getMovementDate().toLocalDate());
+                    reportDto.setClient(movement.getAccount().getClient());
+                    reportDto.setAccountNumber(movement.getAccount().getAccountNumber());
+                    reportDto.setAccountType(movement.getAccount().getAccountType());
+                    reportDto.setInitialBalance(movement.getAccount().getInitialBalance().doubleValue());
+                    reportDto.setStatus(movement.getAccount().getStatus());
+                    reportDto.setMovement(movement.getAmount().doubleValue());
+                    reportDto.setBalance(movement.getBalance().doubleValue());
+                    return reportDto;
+                })
+                .toList();
+    }
+
+    @Override
+    public List<ReportDto> getReport(Long clientId, LocalDate date) {
+        boolean hasClientId = clientId != null;
+        boolean hasDate = date != null;
+
+        if (hasDate) {
+            LocalDateTime initialDateTime = date.atStartOfDay();
+            LocalDateTime finalDateTime = date.atTime(23, 59, 59);
+            List<Movement> movements = movementRepository.findMovementsByMovementDateBetween(initialDateTime, finalDateTime);
+            return movementsToReportDto(movements);
+        }
+
+        return null;
     }
 }
