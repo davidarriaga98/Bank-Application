@@ -1,5 +1,6 @@
 package com.app.account.model.dto;
 
+import com.app.account.model.enumeration.AccountType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
@@ -14,7 +15,7 @@ public class MovementDto {
     private LocalDateTime movementDate;
 
     @JsonProperty("tipoMovimiento")
-    private String movementType;
+    private AccountType movementType;
 
     @JsonProperty("valor")
     private BigDecimal amount;

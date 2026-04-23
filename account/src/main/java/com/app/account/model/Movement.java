@@ -1,5 +1,6 @@
 package com.app.account.model;
 
+import com.app.account.model.enumeration.AccountType;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,10 @@ public class Movement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDateTime movementDate;
-    private String movementType;
+
+    @Enumerated(EnumType.STRING)
+    private AccountType movementType;
+
     private BigDecimal amount;
     private BigDecimal balance;
 

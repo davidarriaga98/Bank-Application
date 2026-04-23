@@ -1,5 +1,6 @@
 package com.app.account.model.dto;
 
+import com.app.account.model.enumeration.AccountType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
@@ -35,7 +36,7 @@ public class AccountDto {
     @JsonProperty("tipoCuenta")
     @Length(max = 50)
     @NotBlank
-    private String accountType;
+    private AccountType accountType;
 
     @JsonProperty("saldoInicial")
     @NotNull

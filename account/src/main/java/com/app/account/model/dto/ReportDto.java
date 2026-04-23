@@ -1,5 +1,6 @@
 package com.app.account.model.dto;
 
+import com.app.account.model.enumeration.AccountType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
@@ -17,7 +18,7 @@ public class ReportDto {
     private String accountNumber;
 
     @JsonProperty("tipo")
-    private String accountType;
+    private AccountType accountType;
 
     @JsonProperty("saldoInicial")
     private Double initialBalance;

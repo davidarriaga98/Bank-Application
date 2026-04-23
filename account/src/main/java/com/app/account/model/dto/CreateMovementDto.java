@@ -1,5 +1,6 @@
 package com.app.account.model.dto;
 
+import com.app.account.model.enumeration.AccountType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -13,8 +14,7 @@ public class CreateMovementDto {
     private String accountNumber;
 
     @JsonProperty("tipoCuenta")
-    @NotBlank
-    private String accountType;
+    private AccountType accountType;
 
     @JsonProperty("saldoInicial")
     private BigDecimal initialBalance;

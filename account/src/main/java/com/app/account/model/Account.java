@@ -1,5 +1,6 @@
 package com.app.account.model;
 
+import com.app.account.model.enumeration.AccountType;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,10 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String accountNumber;
-    private String accountType;
+
+    @Enumerated(EnumType.STRING)
+    private AccountType accountType;
+
     private BigDecimal initialBalance;
     private Boolean status;
 
