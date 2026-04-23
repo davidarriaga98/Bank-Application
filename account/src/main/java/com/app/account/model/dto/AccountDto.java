@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
+import java.math.BigDecimal;
+
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @AllArgsConstructor
@@ -28,7 +30,7 @@ public class AccountDto {
     private String accountType;
 
     @NotNull
-    private Double initialBalance;
+    private BigDecimal initialBalance;
 
     @NotNull
     private Boolean status;

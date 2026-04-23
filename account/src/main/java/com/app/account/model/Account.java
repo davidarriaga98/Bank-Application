@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 @Entity
 @Table(name = "account")
 @Data
@@ -15,6 +18,9 @@ public class Account {
     private String accountNumber;
     private String accountType;
     private String client;
-    private Double initialBalance;
+    private BigDecimal initialBalance;
     private Boolean status;
+
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
+    private List<Movement> movements;
 }
