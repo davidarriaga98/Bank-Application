@@ -20,10 +20,10 @@ cd client
 
 ```console
 cd account
-java -jar ./build/libs/account-0.0.1-SNAPSHOT.war
+java -jar ./build/libs/account-0.0.1-SNAPSHOT.jar
 
 cd client
-java -jar ./build/libs/client-0.0.1-SNAPSHOT.war
+java -jar ./build/libs/client-0.0.1-SNAPSHOT.jar
 ```
 
 **Ejecutar con docker compose**
